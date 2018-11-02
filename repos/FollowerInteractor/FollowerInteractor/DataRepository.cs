@@ -82,5 +82,13 @@ namespace FollowersGetter
             }
             return templates;
         }
+
+        public void DeleteAccountToCheck(AccountsToCheck account)
+        {
+            using (ISession session = NhibernateSession.OpenSession())
+            {    
+                session.Delete(account);
+            }
+        }
     } 
 }

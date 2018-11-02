@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FollowerInteractor
@@ -116,11 +117,12 @@ namespace FollowerInteractor
                     int r = rnd.Next(defaultMessages.Count());                
                     message = defaultMessages[r].ToString();
                 }
-
+                Thread.Sleep(30000);
                 message = message.Replace("username", account.UserName);
-                Console.WriteLine("Interaction prepared:   " + account.UserName);
-                Console.WriteLine("Message:                " + message);
-                Console.WriteLine("\n\n");
+                var result = await instaApi.SendDirectMessage(account.Pk.ToString(),string.Empty, message);
+                dataRepository.DeleteAccountToCheck(persons.Where(x => x.username == account.UserName).First());
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Interaction completed for User:" + account.UserName);
             }
          }
     }
